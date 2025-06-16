@@ -1,0 +1,29 @@
+<% layout("/layouts/boilerPlate") -%>
+<body>
+    <form action="/listings" method="POST">
+
+        <h1>List hotel online</h1>
+        <label for="title">Enter title : </label>
+        <input id="title" type="text" name="listing[title]">
+        <br>
+        <label for="img">insert image : </label>
+        <input id="img" type="text" name="listing[image]">
+        <br>
+        <label for="description">Enter Description : </label>
+        <textarea id="description" name="listing[description]"> </textarea>
+        <br>
+        <label for="price">Enter price : </label>
+        <input type="number" name="listing[price]">
+        <br>
+        <label for="location">Enter location : </label>
+        <input type="text" name="listing[location]">
+        <br>
+        <label for="country">Enter country : </label>
+        <input type="text" name="listing[country]">
+        <br>
+        <button type="submit">
+            Submit </button>
+
+    </form>
+</body>
+
