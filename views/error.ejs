@@ -1,0 +1,12 @@
+<% layout("/layouts/boilerPlate") -%>
+
+    <div class="row offset-0 mg">
+        <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div class="alert alert-danger" role="alert">
+            A simple danger alert—check it out!
+            <h4>
+               <%= err.message %>
+               <%= err.statusCode %>
+            </h4>
+        </div>
+    </div>

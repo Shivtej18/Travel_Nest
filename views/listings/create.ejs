@@ -1,29 +1,73 @@
 <% layout("/layouts/boilerPlate") -%>
-<body>
-    <form action="/listings" method="POST">
 
-        <h1>List hotel online</h1>
-        <label for="title">Enter title : </label>
-        <input id="title" type="text" name="listing[title]">
-        <br>
-        <label for="img">insert image : </label>
-        <input id="img" type="text" name="listing[image]">
-        <br>
-        <label for="description">Enter Description : </label>
-        <textarea id="description" name="listing[description]"> </textarea>
-        <br>
-        <label for="price">Enter price : </label>
-        <input type="number" name="listing[price]">
-        <br>
-        <label for="location">Enter location : </label>
-        <input type="text" name="listing[location]">
-        <br>
-        <label for="country">Enter country : </label>
-        <input type="text" name="listing[country]">
-        <br>
-        <button type="submit">
-            Submit </button>
+    <body>
+        <div class="row"> <!-- row wise arrangenment -->
+            <div class="col-8 offset-2"> <!-- //*maximum 8 columns on page if there are more *// -->
+                <form action="/listings"  method="POST" novalidate class="needs-validation">
+                    <br><br>
+                    <h1>List hotel online</h1>
+                    <div>
+                        <label for="title" class="form-label">Enter title : </label>
+                        <input id="title" type="text" name="listing[title]" class="form-control" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Enter valid information
+                        </div>
+                    </div>
 
-    </form>
-</body>
+                    <div>
+                        <label for="img" class="form-label">insert image : </label>
+                        <input id="img" type="text" name="listing[image]" class="form-control">
 
+                    </div>
+
+                    <div>
+                        <label for="description" class="form-label">Enter Description : </label>
+                        <textarea id="description" name="listing[description]" class="form-control"
+                            required></textarea>
+                    </div>
+
+                    <div>
+                        <label for="price" class="form-label">Enter price : </label>
+                        <input type="number" name="listing[price]" class="form-control" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please select a correct price.
+                        </div>
+                    </div>
+
+                    <div class="row"> <!-- location and country on same line. -->
+                        <div class="col-md-4"> <!-- md => 4:8 ratio implies after medium size of page.  -->
+                            <label for="location" class="form-label">Enter location :</label>
+                            <!--if they are lower size than md then on each row-->
+                            <input type="text" name="listing[location]" class="form-control" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please select a valid location.
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <label for="country" class="form-label">Enter country : </label>
+                            <input type="text" name="listing[country]" class="form-control" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please select a valid country.
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-danger">submit</button>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+    </body>

@@ -1,11 +1,16 @@
 body{
   font-family: "Plus Jakarta Sans", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;    /* At the start page occupy all page on browser then after footer is shown. */
 }
 
-
+.container{
+     flex: 1;       /* container div occupy minimum height mentioned */
+}
 .navbar{
-    height: 5rem;
-    background-color: white;
+    height: 5rem !important;
+    background-color: white !important;
 }
 
 .fa-compass{
@@ -22,9 +27,9 @@ body{
     color: #222222 !important;
 }
 .f-info{
-    height: 8rem;
+    height: 8rem ;
     background-color: #ebebeb;
-    display: flex;
+    display: flex ;
     justify-content:center;
     align-items: space-evenly;
     text-align: center;
@@ -51,7 +56,7 @@ body{
    text-decoration: underline;
 }
 
-.card{
+.listing-card{
     border: none !important;
     margin-bottom: 2rem;
 }
@@ -73,4 +78,27 @@ body{
 
 .listing-link{
     text-decoration: none;
+    color: rgb(12, 12, 12);
+}
+/*hover effect for card*/
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+
+/* show page */
+.img{
+    height: 30vh;
+}
+
+.show-card{
+    padding-left:0 ;
+    padding-right: 0;
+}
+.btns{
+    display: flex;
+} 
+.btns a{
+    text-decoration: none;
+    color: #ebebeb;
 }
