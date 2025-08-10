@@ -4,9 +4,10 @@ const port = 8080;
 const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const CustomError = require('./util/customError.js');
-const wrapAsync = require("./util/wrapAsync");
+const wrapAsync = require("./util/wrapAsync.js");
 const Review = require("./models/reviews.js");
 const { reviewSchema } = require('./schema.js');
+const listing = require("./router/listing.js");
 
 app.use(methodOverride("_method"));
 
@@ -49,71 +50,7 @@ const validateReviw = (req, res, next) => {
     }
 }
 
-//index route
-app.get("/listings", wrapAsync(async (req, res) => {
-    const allListing = await Listing.find({}); //.find({}) method returns queryobject.
-    res.render("listings/index.ejs", { allListing });
-}));
-
-//create new route
-app.get("/listings/new", wrapAsync(async (req, res) => {
-    res.render("listings/create.ejs");
-}));
-
-app.post("/listings", wrapAsync(async (req, res, next) => {
-
-    if (!req.body.listing) {
-        throw new CustomError("Enter valid data", 400); //400 for bad request.
-    }
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-    // } catch (err) {
-    //     next(new CustomError(err.message, 500));
-    //}
-}));
-
-//Show route
-app.get("/listings/:id", wrapAsync(async (req, res, next) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");    //.populate is method.
-    res.render("listings/show.ejs", { listing });
-}));
-
-//edit & Update
-app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing });
-}));
-
-app.put("/listings/:id", wrapAsync(async (req, res) => {
-    let { id } = req.params;  //extract id
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing }); //extract listing , pass parameter id & listing. listing is deconstructed.
-    res.redirect("/listings");
-}));
-
-//DELETE route
-
-app.delete("/listings/:id", wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
-    res.redirect("/listings");
-}));
-
-//review
-//POST review on localhost8080/:id/review
-app.post("/listings/:id/reviews", validateReviw, wrapAsync(async (req, res) => {
-    let listing = await Listing.findById(req.params.id);      //find required listing to store review.
-    let newReview = new Review(req.body.review);    //R is capital because it is model.
-
-    listing.reviews.push(newReview);
-    await newReview.save();
-    await listing.save();
-    res.redirect(`/listings/${listing._id}`)
-}));
-
+app.use("/listings/",listing);
 
 app.listen(8080, () => {
     console.log("Listening on port 8080");

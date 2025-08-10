@@ -54,30 +54,36 @@
                     <button type="submit" class="btn btn-outline-dark">Submit</button>
                 </form>
             </div>
-            <div class="col-6 offset-3">
-                <hr>
-                <hr>
-<h4>All Reviews</h4>
-<% if(listing.reviews.length === 0) { %>
-    <p>No reviews yet.</p>
-<% } else { %>
-    <% listing.reviews.forEach(function(review, idx) { %>
-        <% if (idx % 2 === 0) { %>
-            <div class="row">
-        <% } %>
+            <hr class="col-6 offset-3">
+            <div class="col-12 offset-3">
+                
+                <h4>All Reviews</h4>
+                <% if(listing.reviews.length === 0) { %>
+                  <p>No reviews yet.</p>
+                <% } else { %>
+                <% listing.reviews.forEach(function(review, idx) { %>
+                <% if (idx % 2 === 0) { %>
+                <div class="row">
+                <% } %>
                 <div class="card col-6 mb-3 ms-2">
                     <div class="card-body">
                         <p class="card-title"><b>User.name</b></p>
                         <p class="card-text">Rating: <%= review.rating %> Stars </p>
                         <p class="card-text">Comment: <%= review.comment %></p>
+                   <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                        method="POST"
+                        class="mb-2">
+                        <button class="btn btn-sm btn-dark">Delete</button>
+                   </form>
                     </div>
                 </div>
-        <% if (idx % 2 === 1 || idx === listing.reviews.length - 1) { %>
+                <% if (idx % 2 === 1 || idx === listing.reviews.length - 1) { %>
+                </div>
+                <% } %>
+                <% }); %>
+                <% } %>
             </div>
-        <% } %>
-    <% }); %>
-<% } %>
-            </div>
+            
         </div>
     </body>
     <!-- listing.reviews is an array of review objects.
