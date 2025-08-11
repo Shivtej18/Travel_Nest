@@ -8,6 +8,7 @@ const wrapAsync = require("./util/wrapAsync.js");
 const Review = require("./models/reviews.js");
 const { reviewSchema } = require('./schema.js');
 const listing = require("./router/listing.js");
+const review = require("./router/review.js");
 
 app.use(methodOverride("_method"));
 
@@ -50,7 +51,8 @@ const validateReviw = (req, res, next) => {
     }
 }
 
-app.use("/listings/",listing);
+app.use("/listings/",listing);  //Express router used.
+app.use("/listings/:id/reviews",review);
 
 app.listen(8080, () => {
     console.log("Listening on port 8080");

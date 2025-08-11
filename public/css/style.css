@@ -65,7 +65,8 @@ body{
 .card-img-top {
     border-radius: 1rem !important;
     width: 100% !important;
-    object-fit: cover;
+    height: 400px;           /* Set a fixed height */
+    object-fit: cover;       /* Ensures the image covers the area */
 }
 
 .card-body {
@@ -88,7 +89,7 @@ body{
 
 /* show page */
 .img{
-    height: 30vh;
+    height: 30vh !important;
 }
 
 .show-card{

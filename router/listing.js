@@ -72,31 +72,5 @@ router.delete("/:id", wrapAsync(async (req, res) => {
     res.redirect("/listings");
 }));
 
-//review
-//POST review on localhost8080/:id/review
-router.post("/:id/reviews", validateReviw, wrapAsync(async (req, res) => {
-    let listing = await Listing.findById(req.params.id);      //find required listing to store review.
-    let newReview = new Review(req.body.review);    //R is capital because it is model.
-
-    listing.reviews.push(newReview);
-    await newReview.save();
-    await listing.save();
-    res.redirect(`/listings/${listing._id}`)
-}));
-
-//DELETE review
-router.delete("/:id/reviews/:reviewId",
-    wrapAsync(async (req, res) => {
-        let { id, reviewId } = req.params;
-        // Remove review reference from listing
-        await Listing.findByIdAndUpdate(
-            id,
-            {
-                $pull: { reviews: reviewId }
-            });
-        // Delete the review itself
-        await Review.findByIdAndDelete(reviewId);
-        res.redirect(`/listings/${id}`);
-    }));
-
 module.exports = router; //router object is exported.    
+//Common part removed is "/listings".
