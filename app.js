@@ -9,6 +9,37 @@ const Review = require("./models/reviews.js");
 const { reviewSchema } = require('./schema.js');
 const listing = require("./router/listing.js");
 const review = require("./router/review.js");
+const session = require('express-session');
+const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
+
+const sessionOptions = {
+    secret:"mysupersecretestring",
+    resave:false,
+    saveUninitialized: true,
+    cookie: {
+        expires : 7 * 24 * 60 * 60 * 1000,
+        maxAge :  7 * 24 * 60 * 60 * 1000,
+        httpOnly : true , //prevent's from cross scripting attacks.
+    }
+}
+
+app.use(session(sessionOptions));   
+app.use(flash());
+app.use((req,res,next)=>{
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+
+app.use(passport.initialize);
+app.use(passport.session);
+app.use(new LocalStrategy(User.authenticate()));
+
+
+
 
 app.use(methodOverride("_method"));
 
@@ -36,6 +67,7 @@ app.engine('ejs', ejsMate);
 
 //parse form data
 const bodyParser = require('body-parser');
+const cookie = require("express-session/session/cookie.js");
 app.use(express.json()); // Middleware to parse JSON requests
 app.use(express.urlencoded({ extended: true })); // Middleware for form submissions
 
