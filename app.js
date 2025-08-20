@@ -1,19 +1,30 @@
+
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config();      
+}
+const cloudinary = require('cloudinary').v2;
+
 const express = require("express");      // set up express server
 const app = express();
 const port = 8080;
 const Listing = require("./models/listing.js");
+
 const methodOverride = require("method-override");
 const CustomError = require('./util/customError.js');
 const wrapAsync = require("./util/wrapAsync.js");
 const Review = require("./models/reviews.js");
 const { reviewSchema } = require('./schema.js');
-const listing = require("./router/listing.js");
-const review = require("./router/review.js");
+const listingRouter = require("./router/listing.js");
+const reviewRouter = require("./router/review.js");
 const session = require('express-session');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const userRouter = require("./router/user.js");
+const ExpressError = require("./util/customError");
+
+
 
 const sessionOptions = {
     secret:"mysupersecretestring",
@@ -28,19 +39,22 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));   
 app.use(flash());
+
+
+app.use(passport.initialize());
+app.use(passport.session()); //these two must be called before locals otherwise we will not get value of currUser.
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
     next();
 });
 
-app.use(passport.initialize);
-app.use(passport.session);
-app.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-
-
-
+app.use(express.urlencoded({ extended: true })); // Middleware for form submissions
 app.use(methodOverride("_method"));
 
 // Seting database
@@ -69,22 +83,13 @@ app.engine('ejs', ejsMate);
 const bodyParser = require('body-parser');
 const cookie = require("express-session/session/cookie.js");
 app.use(express.json()); // Middleware to parse JSON requests
-app.use(express.urlencoded({ extended: true })); // Middleware for form submissions
+
 
 app.use(express.static(path.join(__dirname, "/public")));
 
-const validateReviw = (req, res, next) => {
-    let { error } = reviewSchema.validate(req.body); //here we validate request body using reviewSchema 
-    if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    } else {
-        next();
-    }
-}
-
-app.use("/listings/",listing);  //Express router used.
-app.use("/listings/:id/reviews",review);
+app.use("/listings/",listingRouter);  //Express router used.
+app.use("/listings/:id/reviews",reviewRouter);
+app.use("/",userRouter);
 
 app.listen(8080, () => {
     console.log("Listening on port 8080");

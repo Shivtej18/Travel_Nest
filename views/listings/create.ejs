@@ -3,7 +3,7 @@
     <body>
         <div class="row"> <!-- row wise arrangenment -->
             <div class="col-8 offset-2"> <!-- //*maximum 8 columns on page if there are more *// -->
-                <form action="/listings"  method="POST" novalidate class="needs-validation">
+                <form action="/listings"  method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
                     <br><br>
                     <h1>List hotel online</h1>
                     <div>
@@ -18,9 +18,8 @@
                     </div>
 
                     <div>
-                        <label for="img" class="form-label">insert image : </label>
-                        <input id="img" type="text" name="listing[image]" class="form-control">
-
+                        <label for="img" class="form-label">Upload listing image : </label>
+                        <input id="img" type="file" name="image" class="form-control">
                     </div>
 
                     <div>

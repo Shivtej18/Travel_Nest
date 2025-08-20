@@ -1,0 +1,37 @@
+<% layout("/layouts/boilerPlate") -%>
+
+    <body>
+        <div class="row"> <!-- row wise arrangenment -->
+            <div class="col-8 offset-2"> <!-- //*maximum 8 columns on page if there are more *// -->
+                <form action="/signup" method="POST" novalidate class="needs-validation">
+                    <br><br>
+                    <h1>User SignUp</h1>
+                    <div>
+                        <label for="username" class="form-label">Enter UserName : </label>
+                        <input id="username" type="text" name="username" class="form-control" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Enter valid information
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="form-label">Enter email : </label>
+                        <input id="email" name="email" class="form-control" required></input>
+                    </div>
+
+                    <div>
+                        <label for="password" class="form-label">Enter Password : </label>
+                        <input id="password" type="password" name="password" class="form-control">
+
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-success">Signup</button>
+
+            </div>
+            </form>
+        </div>
+        </div>
+    </body>

@@ -3,6 +3,7 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 100vh;    /* At the start page occupy all page on browser then after footer is shown. */
+  overflow-x: hidden;
 }
 
 .container{

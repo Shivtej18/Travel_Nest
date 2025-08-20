@@ -14,10 +14,13 @@ main()
 
 async function main() {
     await mongoose.connect(Mongo_URL);
-}    
+}
 
 const initDB = async () => {    //to clean already present random data
-await Listing.deleteMany({});
+    await Listing.deleteMany({});
+    initData.data = initData.data.map((obj) => ({
+        ...obj, owner: "68a2a695a16bb164cc1058f6",
+    }));
 await Listing.insertMany(initData.data);
 // await Listing.insertMany(sampleListings); //error resolved
 console.log("data was initialised");

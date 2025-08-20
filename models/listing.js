@@ -33,7 +33,11 @@ const listingSchema = new Schema({
             type: Schema.Types.ObjectId,    //review id's
             ref: "Review"
         }
-    ]
+    ],
+    owner: {
+            type: Schema.Types.ObjectId,    //owner id's
+            ref: "User"
+        }
 });
 
 //mongoose middleware to delete related reviews
