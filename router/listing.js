@@ -19,14 +19,11 @@ const upload = multer({ storage }); //files will be stored at destination upload
 //index route               //controller used. 
 router.route("/")
     .get(wrapAsync(listingController.index))
-    //.post(
-    // isLoggedIn,
-    // wrapAsync(listingController.createNewlisting)
-    // );
-    .post( upload.single('image'), async (req, res) => {
-        res.send(req.file);
-});
-
+    .post(
+     isLoggedIn,
+     upload.single('image'),
+     wrapAsync(listingController.createNewlisting)
+     );
 
 //create new route
 router.get("/new", isLoggedIn , wrapAsync(listingController.renderCreateForm));
@@ -34,7 +31,11 @@ router.get("/new", isLoggedIn , wrapAsync(listingController.renderCreateForm));
 //Show route
 router.route("/:id")
     .get(wrapAsync(listingController.showListing))
-    .put(isLoggedIn, isOwner , wrapAsync(listingController.updateEditForm))
+    .put(isLoggedIn,
+         isOwner , 
+         upload.single('image'), //multer parse img 
+         wrapAsync(listingController.updateEditForm)
+    )
     .delete(isLoggedIn ,isOwner, wrapAsync(listingController.destroyListing));
 
 //edit & Update

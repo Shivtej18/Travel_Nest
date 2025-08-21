@@ -4,11 +4,21 @@
         <div class="row"> <!-- row wise arrangenment -->
             <div class="col-8 offset-2"> <!-- //*maximum 8 columns on page if there are more *// -->
 
-                <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+                <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data">
                     <h1>Edit details</h1>
                     <div>
                         <label for="title" class="form-label">Enter title : </label>
                         <input type="text" value="<%= listing.title%>" name="listing[title]" class="form-control">
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        Original Listing image:
+                        <br>
+                        <img src="<%= listing.image.url %>" alt="Old image" style="max-width: 200px; height: 200px;">
+                    </div>
+                    <div>
+                        <label for="image" class="form-label">Upload new image : </label>
+                        <input type="file" value="<%= listing.image.url%>" name="image" class="form-control">
                     </div>
                     <br>
                     <div>
@@ -35,7 +45,7 @@
                         </div>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-outline-dark"> edit </button>
+                    <button type="submit" class="btn btn-outline-dark mb-3"> edit </button>
                 </form>
             </div>
         </div>

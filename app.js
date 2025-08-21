@@ -17,17 +17,31 @@ const { reviewSchema } = require('./schema.js');
 const listingRouter = require("./router/listing.js");
 const reviewRouter = require("./router/review.js");
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const userRouter = require("./router/user.js");
 const ExpressError = require("./util/customError");
+const dbUrl = process.env.ATLASDB_URL;
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto: {
+        secret: "process.env.SECRET"
+    },
+    touchAfter: 24*3600,
 
+});
+
+store.on("error", ()=>{
+    console.log("Error in mongo session-store",err);
+});
 
 const sessionOptions = {
-    secret:"mysupersecretestring",
+    store,
+    secret:"process.env.SECRET",
     resave:false,
     saveUninitialized: true,
     cookie: {
@@ -36,6 +50,7 @@ const sessionOptions = {
         httpOnly : true , //prevent's from cross scripting attacks.
     }
 }
+
 
 app.use(session(sessionOptions));   
 app.use(flash());
@@ -57,21 +72,24 @@ passport.deserializeUser(User.deserializeUser());
 app.use(express.urlencoded({ extended: true })); // Middleware for form submissions
 app.use(methodOverride("_method"));
 
+
 // Seting database
 const mongoose = require("mongoose");
-const Mongo_URL = 'mongodb://127.0.0.1:27017/TravelNest'
+// const Mongo_URL = 'mongodb://127.0.0.1:27017/TravelNest' to run locally.
 const ejsMate = require("ejs-mate");
 
 main()
     .then(() => {
         console.log("connected to db");
     })
-    .catch(() => {
-        console.log("err");
+    .catch((err) => {
+        console.log("error is:",err);
     });
 async function main() {
-    await mongoose.connect(Mongo_URL);
+    await mongoose.connect(dbUrl);
+    // await mongoose.connect(Mongo_URL);  //testing line
 };
+mongoose.set('debug', true);
 
 
 const ejs = require('ejs');             //create a template engine.

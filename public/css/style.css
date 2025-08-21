@@ -14,6 +14,14 @@ body{
     background-color: white !important;
 }
 
+/* menu items appearing on top of content but not readable then use : */
+.navbar-collapse {
+  background-color: white;
+  z-index: 1000;
+  position: relative;
+}
+
+
 .fa-compass{
     color: #fe424d;
     font-size: 2rem;

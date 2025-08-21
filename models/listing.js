@@ -10,21 +10,10 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        filename: {
-            type: String,
-            default: 'listingimage'
-        },
-        url: {
-            type: String,
-            default: 'https://images.unsplash.com/photo-1747746431118-c03563a55d3e?q=80&w=1984&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-        }
+        url: String,
+        filename : String,        
     },
-    // image : {
-    //      type: String,
 
-    //     default:"https://images.unsplash.com/photo-1747746431118-c03563a55d3e?q=80&w=1984&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    //     set: (v) => v==="" ? "https://images.unsplash.com/photo-1747746431118-c03563a55d3e?q=80&w=1984&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D":v,
-    // },
     price: Number,
     location: String,
     country: String,
@@ -37,7 +26,11 @@ const listingSchema = new Schema({
     owner: {
             type: Schema.Types.ObjectId,    //owner id's
             ref: "User"
-        }
+        },
+    // category: {
+    //     type: "String",
+    //     enum: ["Mountain","Pools", "Forts", "Iconic Cities", "Farms", "Arctic", "Camping", "Waterfalls", "Room"]
+    // }    
 });
 
 //mongoose middleware to delete related reviews
