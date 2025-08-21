@@ -121,16 +121,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error", { err });
 });
 
-
-// app.get("/testListing", async (req, res) => {
-//     let sampleListing = new Listing({
-//         title: "Villa",
-//         description: "Place to see greenery",
-//         price: 1500,
-//         location: "Panhala",
-//         country: "India"
-//     });
-//     await sampleListing.save();
-//     console.log("data saved");
-//     res.send("successfull testing");
-// });
+app.get("/", (req, res) => {
+    res.redirect("/listings"); // or redirect to /listings
+});
